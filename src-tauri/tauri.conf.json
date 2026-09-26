@@ -13,7 +13,7 @@
     "windows": [
       {
         "title": "Study Timer",
-        "width": 260,
+        "width": 240,
         "height": 256,
         "decorations": false,
         "transparent": true,
