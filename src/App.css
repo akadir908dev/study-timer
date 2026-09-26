@@ -20,7 +20,11 @@ html, body {
 .app-container {
   width: 100vw;
   height: 100vh;
-  background-color: #242424; 
+  /* Use an rgba color so the background is 85% opaque */
+  background-color: rgba(36, 36, 36, 1); 
+  /* Add a blur effect so whatever is behind the timer looks frosted */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 20px; 
   display: flex;
   flex-direction: column;
