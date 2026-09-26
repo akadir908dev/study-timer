@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 interface FinishedProps {
   onNavigate: (view: string) => void;

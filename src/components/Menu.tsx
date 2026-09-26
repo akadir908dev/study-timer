@@ -1,5 +1,3 @@
-import React from "react";
-
 interface MenuProps {
   onNavigate: (view: string) => void;
 }

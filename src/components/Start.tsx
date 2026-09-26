@@ -1,5 +1,3 @@
-import React from "react";
-
 interface StartProps {
   onNavigate: (view: string) => void;
 }
