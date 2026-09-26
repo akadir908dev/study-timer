@@ -42,8 +42,11 @@ export default function Finished({ onNavigate }: FinishedProps) {
   }, []);
 
   return (
-    <div className="flex flex-col gap-4 items-center justify-center h-full">
+    <div className="flex flex-col gap-3 items-center justify-center h-full">
+      <div className="flex flex-col items-center gap-1">
       <p className="text-2xl font-bold text-white tracking-wider">Well done!</p>
+      <p className="text-base font-bold text-white tracking-wider">You should be proud of yourself !</p>
+      </div>
       <button 
         className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium transition-colors mt-4 cursor-pointer"
         onClick={() => onNavigate("start")}

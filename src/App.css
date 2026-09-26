@@ -89,7 +89,9 @@ html, body {
   text-align: center;
 }
 
-button {
-  cursor: pointer;
+@layer base {
+  button {
+    cursor: pointer;
+  }
 }
 
