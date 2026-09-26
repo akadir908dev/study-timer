@@ -48,7 +48,9 @@ function App() {
       </div>
 
       <main className="content">
-        
+        <div className="timer-display">
+          <span id="minutes">25</span>
+        </div>
       </main>
     </div>
   );
