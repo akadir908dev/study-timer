@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Play, Pause, Square } from "lucide-react";
+import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/plugin-notification';
 
 interface TimerProps {
     initialSeconds: number;
@@ -11,6 +12,18 @@ export default function Timer({ initialSeconds, onNavigate }: TimerProps) {
     const [isPaused, setIsPaused] = useState(false);
     const [showEndConfirm, setShowEndConfirm] = useState(false);
 
+    // Request notification permission on mount
+    useEffect(() => {
+        const initNotifications = async () => {
+            let permissionGranted = await isPermissionGranted();
+            if (!permissionGranted) {
+                const permission = await requestPermission();
+                permissionGranted = permission === 'granted';
+            }
+        };
+        initNotifications();
+    }, []);
+
     useEffect(() => {
         if (isPaused || showEndConfirm) return;
 
@@ -18,7 +31,8 @@ export default function Timer({ initialSeconds, onNavigate }: TimerProps) {
             setTimeLeft((prev) => {
                 if (prev <= 1) {
                     clearInterval(id);
-                    // Defer navigation to avoid state update during render warnings
+                    // Send Windows Toast Notification
+                    sendNotification({ title: 'Study Timer', body: 'Your timer is finished! Well done!' });
                     setTimeout(() => onNavigate("finished"), 0);
                     return 0;
                 }

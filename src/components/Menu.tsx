@@ -7,10 +7,10 @@ interface MenuProps {
 export default function Menu({ onNavigate }: MenuProps) {
   return (
     <div 
-      className="flex flex-col items-center justify-center h-full w-full cursor-pointer hover:bg-white/5 rounded-lg transition-colors"
+      className="flex flex-col items-center justify-center h-full w-full hover:bg-white/5 rounded-lg transition-colors"
       onClick={() => onNavigate("start")}
     >
-      <p className="text-xl font-bold">Start</p>
+      <p className="text-xl font-bold cursor-pointer">Start</p>
     </div>
   );
 }
