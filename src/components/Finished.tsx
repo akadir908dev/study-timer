@@ -2,10 +2,13 @@ import { useEffect } from "react";
 
 interface FinishedProps {
   onNavigate: (view: string) => void;
+  playMusic?: boolean;
 }
 
-export default function Finished({ onNavigate }: FinishedProps) {
+export default function Finished({ onNavigate, playMusic = true }: FinishedProps) {
   useEffect(() => {
+    if (!playMusic) return;
+
     const audio = new Audio("/sounds/pwlpl-achievement-unlocked-361842.mp3");
     audio.volume = 0.1; // 0.0 is silent, 1.0 is max volume
     

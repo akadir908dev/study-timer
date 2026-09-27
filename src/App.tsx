@@ -5,6 +5,7 @@ import Menu from "./components/Menu";
 import Start from "./components/Start";
 import TimerMenu from "./components/TimerMenu";
 import Timer from "./components/Timer";
+import Stopwatch from "./components/Stopwatch";
 import Finished from "./components/Finished";
 
 function App() {
@@ -32,7 +33,9 @@ function App() {
             onNavigate={setCurrentView} 
           />
         )}
+        {currentView === "stopwatch" && <Stopwatch onNavigate={setCurrentView} />}
         {currentView === "finished" && <Finished onNavigate={setCurrentView} />}
+        {currentView === "finished-silent" && <Finished onNavigate={setCurrentView} playMusic={false} />}
       </main>
     </div>
   );
