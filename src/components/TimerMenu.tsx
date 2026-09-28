@@ -1,15 +1,28 @@
 import React, { useState, useRef, useEffect } from "react";
 
 interface TimerMenuProps {
+    initialSeconds?: number;
     onNavigate: (view: string) => void;
     onStartTimer: (seconds: number) => void;
 }
 
-export default function TimerMenu({ onNavigate, onStartTimer }: TimerMenuProps) {
+export default function TimerMenu({ initialSeconds = 0, onNavigate, onStartTimer }: TimerMenuProps) {
     const [digits, setDigits] = useState("");
     const inputRef = useRef<HTMLInputElement>(null);
     const [isFocused, setIsFocused] = useState(false);
     const [cursorVisible, setCursorVisible] = useState(false);
+
+    useEffect(() => {
+        if (initialSeconds > 0) {
+            const h = Math.floor(initialSeconds / 3600);
+            const m = Math.floor((initialSeconds % 3600) / 60);
+            const s = initialSeconds % 60;
+            const pad = (num: number) => num.toString().padStart(2, "0");
+            
+            const newDigits = `${pad(h)}${pad(m)}${pad(s)}`;
+            setDigits(newDigits.replace(/^0+/, ''));
+        }
+    }, [initialSeconds]);
 
     useEffect(() => {
         if (isFocused) {

@@ -20,6 +20,7 @@ function App() {
         {currentView === "start" && <Start onNavigate={setCurrentView} />}
         {currentView === "timerMenu" && (
           <TimerMenu 
+            initialSeconds={timerDuration}
             onNavigate={setCurrentView} 
             onStartTimer={(seconds) => {
               setTimerDuration(seconds);
@@ -35,7 +36,7 @@ function App() {
         )}
         {currentView === "stopwatch" && <Stopwatch onNavigate={setCurrentView} />}
         {currentView === "finished" && <Finished onNavigate={setCurrentView} />}
-        {currentView === "finished-silent" && <Finished onNavigate={setCurrentView} playMusic={false} />}
+        {currentView === "finished-silent" && <Finished onNavigate={setCurrentView} playMusic={false} showRepeat={false} />}
       </main>
     </div>
   );

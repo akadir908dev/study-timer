@@ -1,11 +1,13 @@
 import { useEffect } from "react";
+import { RotateCcw } from "lucide-react";
 
 interface FinishedProps {
   onNavigate: (view: string) => void;
   playMusic?: boolean;
+  showRepeat?: boolean;
 }
 
-export default function Finished({ onNavigate, playMusic = true }: FinishedProps) {
+export default function Finished({ onNavigate, playMusic = true, showRepeat = true }: FinishedProps) {
   useEffect(() => {
     if (!playMusic) return;
 
@@ -36,7 +38,6 @@ export default function Finished({ onNavigate, playMusic = true }: FinishedProps
     audio.addEventListener("ended", handleEnded);
     playSound();
 
-    // Cleanup function stops the audio immediately when navigating away
     return () => {
       audio.removeEventListener("ended", handleEnded);
       audio.pause();
@@ -45,17 +46,28 @@ export default function Finished({ onNavigate, playMusic = true }: FinishedProps
   }, []);
 
   return (
-    <div className="flex flex-col gap-3 items-center justify-center h-full">
-      <div className="flex flex-col items-center gap-1">
-      <p className="text-2xl font-bold text-white tracking-wider">Well done!</p>
-      <p className="text-base font-bold text-white tracking-wider">You should be proud of yourself !</p>
+    <div className="flex flex-col gap-3 items-center justify-center h-full w-full">
+      <div className="flex flex-col items-center gap-1 mb-2 text-center">
+        <p className="text-2xl font-bold text-white tracking-wider">Well done!</p>
+        <p className="text-xs font-medium text-white/70 tracking-wider">You should be proud of yourself!</p>
       </div>
-      <button 
-        className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium transition-colors mt-4 cursor-pointer"
-        onClick={() => onNavigate("start")}
-      >
-        Back to Start
-      </button>
+      <div className="flex gap-4">
+        {showRepeat && (
+          <button 
+            className="p-3 bg-white/10 text-white rounded-full transition-colors cursor-pointer"
+            onClick={() => onNavigate("timerMenu")}
+            title="Repeat Timer"
+          >
+            <RotateCcw size={20} />
+          </button>
+        )}
+        <button 
+          className="px-6 py-2 bg-blue-600 text-white rounded-full font-medium transition-colors cursor-pointer"
+          onClick={() => onNavigate("start")}
+        >
+          Back to Start
+        </button>
+      </div>
     </div>
   );
 }
