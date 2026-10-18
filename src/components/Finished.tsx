@@ -5,14 +5,15 @@ interface FinishedProps {
   onNavigate: (view: string) => void;
   playMusic?: boolean;
   showRepeat?: boolean;
+  volume?: number;
 }
 
-export default function Finished({ onNavigate, playMusic = true, showRepeat = true }: FinishedProps) {
+export default function Finished({ onNavigate, playMusic = true, showRepeat = true, volume = 0.1 }: FinishedProps) {
   useEffect(() => {
     if (!playMusic) return;
 
     const audio = new Audio("/sounds/pwlpl-achievement-unlocked-361842.mp3");
-    audio.volume = 0.1; // 0.0 is silent, 1.0 is max volume
+    audio.volume = volume;
     
     let playCount = 0;
     const maxPlays = 3;

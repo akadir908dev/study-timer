@@ -18,7 +18,10 @@ export default function Start({ onNavigate }: StartProps) {
         >
           stopwatch
         </button>
-        <button className="text-lg transition-colors opacity-50 cursor-not-allowed">
+        <button
+          className="text-lg transition-colors cursor-pointer"
+          onClick={() => onNavigate("pomodoro")}
+        >
           pomodoro
         </button>
       </div>

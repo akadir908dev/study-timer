@@ -11,7 +11,14 @@ export default function Menu({ onNavigate }: MenuProps) {
         onClick={() => onNavigate("start")}>
         Start
       </button>
-      <button className="text-lg transition-colors opacity-50 cursor-not-allowed">
+      <button
+        className="text-lg transition-colors cursor-pointer"
+        onClick={() => onNavigate("history")}>
+        History
+      </button>
+      <button
+        className="text-lg transition-colors cursor-pointer"
+        onClick={() => onNavigate("settings")}>
         Settings
       </button>
     </div>
