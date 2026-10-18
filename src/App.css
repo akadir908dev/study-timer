@@ -20,9 +20,7 @@ html, body {
 .app-container {
   width: 100vw;
   height: 100vh;
-  /* Use an rgba color so the background is 85% opaque */
   background-color: rgba(36, 36, 36, 1); 
-  /* Add a blur effect so whatever is behind the timer looks frosted */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 20px; 
@@ -30,6 +28,29 @@ html, body {
   flex-direction: column;
   overflow: hidden; 
   box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+/* Theme Preset Overrides */
+.theme-glassy {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.theme-minimal .titlebar {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.theme-minimal:hover .titlebar {
+  opacity: 1;
+}
+
+.theme-cozy {
+  background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+  color: #333;
 }
 
 .titlebar {

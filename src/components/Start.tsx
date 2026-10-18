@@ -24,6 +24,15 @@ export default function Start({ onNavigate }: StartProps) {
         >
           pomodoro
         </button>
+        <button
+          className="text-lg transition-colors cursor-pointer"
+          onClick={() => {
+            localStorage.removeItem('currentTag');
+            onNavigate("flowtime");
+          }}
+        >
+          flowtime
+        </button>
       </div>
       <button 
         className="text-lg transition-colors opacity-50 cursor-pointer"

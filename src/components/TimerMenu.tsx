@@ -8,6 +8,7 @@ interface TimerMenuProps {
 
 export default function TimerMenu({ initialSeconds = 0, onNavigate, onStartTimer }: TimerMenuProps) {
     const [digits, setDigits] = useState("");
+    const [tag, setTag] = useState("");
     const inputRef = useRef<HTMLInputElement>(null);
     const [isFocused, setIsFocused] = useState(false);
     const [cursorVisible, setCursorVisible] = useState(false);
@@ -50,6 +51,9 @@ export default function TimerMenu({ initialSeconds = 0, onNavigate, onStartTimer
                              (parseInt(mm, 10) || 0) * 60 +
                              (parseInt(ss, 10) || 0);
         if (totalSeconds > 0) {
+            if (tag) localStorage.setItem('currentTag', tag);
+            else localStorage.removeItem('currentTag');
+
             onStartTimer(totalSeconds);
         }
     };
@@ -96,6 +100,15 @@ export default function TimerMenu({ initialSeconds = 0, onNavigate, onStartTimer
                     className={`w-[1px] h-[32px] sm:h-[36px] bg-white ml-1 sm:ml-2 ${cursorVisible ? 'opacity-100' : 'opacity-0'}`} 
                 />
             </div>
+
+            <input
+                type="text"
+                placeholder="Tag (e.g. Math, Coding)"
+                value={tag}
+                onChange={(e) => setTag(e.target.value)}
+                className="mt-2 w-48 px-3 py-1 bg-white/10 rounded-lg text-white text-sm text-center border border-transparent focus:border-white/20 outline-none"
+            />
+
             <div className="flex gap-4 mt-4 items-center justify-center">
                 <button
                     className="w-24 py-2 bg-white/10 text-white rounded-full font-medium transition-colors cursor-pointer"

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Play, Pause, Square } from "lucide-react";
 import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/plugin-notification';
+import StudyPet from "./StudyPet";
 
 interface PomodoroProps {
     onNavigate: (view: string) => void;
@@ -78,11 +79,13 @@ export default function Pomodoro({ onNavigate, volume = 0.1 }: PomodoroProps) {
                 {isWorkSession ? "WORK" : "BREAK"}
             </div>
 
-            <div className="text-4xl font-mono font-light tracking-widest text-white mb-6">
+            <div className="text-4xl font-mono font-light tracking-widest text-white mb-2">
                 {`${pad(m)}:${pad(s)}`}
             </div>
 
-            <div className="flex gap-6 items-center">
+            <StudyPet status={isPaused || showEndConfirm ? 'sleeping' : (isWorkSession ? 'studying' : 'happy')} />
+
+            <div className="flex gap-6 items-center mt-4">
                 <button
                     onClick={() => setIsPaused(!isPaused)}
                     className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors cursor-pointer"
