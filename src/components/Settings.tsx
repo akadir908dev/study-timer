@@ -6,6 +6,10 @@ interface SettingsProps {
   setOpacity: (opacity: number) => void;
   volume: number;
   setVolume: (volume: number) => void;
+  themePreset: string;
+  setThemePreset: (preset: string) => void;
+  fontFamily: string;
+  setFontFamily: (font: string) => void;
 }
 
 export default function Settings({
@@ -16,12 +20,43 @@ export default function Settings({
   setOpacity,
   volume,
   setVolume,
+  themePreset,
+  setThemePreset,
+  fontFamily,
+  setFontFamily,
 }: SettingsProps) {
   return (
     <div className="flex flex-col gap-4 items-center justify-center h-full w-full p-4">
       <h2 className="text-xl font-bold text-white mb-2">Settings</h2>
 
       <div className="w-full flex flex-col gap-4 px-4 text-sm text-left">
+        <div className="flex justify-between items-center">
+          <label className="text-white">Theme</label>
+          <select
+            value={themePreset}
+            onChange={(e) => setThemePreset(e.target.value)}
+            className="bg-black/20 text-white rounded px-2 py-1 text-xs border border-white/10"
+          >
+            <option value="default">Default</option>
+            <option value="glassy">Glassy</option>
+            <option value="minimal">Minimal</option>
+            <option value="cozy">Cozy</option>
+          </select>
+        </div>
+
+        <div className="flex justify-between items-center">
+          <label className="text-white">Font</label>
+          <select
+            value={fontFamily}
+            onChange={(e) => setFontFamily(e.target.value)}
+            className="bg-black/20 text-white rounded px-2 py-1 text-xs border border-white/10"
+          >
+            <option value="Pixelify Sans">Pixelify</option>
+            <option value="Inter">Inter</option>
+            <option value="Roboto Mono">Roboto Mono</option>
+          </select>
+        </div>
+
         {/* Theme Color */}
         <div className="flex justify-between items-center">
           <label className="text-white">Theme Color</label>

@@ -7,17 +7,23 @@ interface HistoryProps {
 interface HistoryItem {
     date: string;
     duration: number;
-    laps: number[];
+    laps?: number[];
+    tag?: string;
 }
 
 export default function History({ onNavigate }: HistoryProps) {
     const [history, setHistory] = useState<HistoryItem[]>([]);
 
     useEffect(() => {
-        const stored = localStorage.getItem('stopwatchHistory');
-        if (stored) {
-            setHistory(JSON.parse(stored));
-        }
+        // Retrieve generic study sessions and stopwatch sessions
+        const stopwatchStored = JSON.parse(localStorage.getItem('stopwatchHistory') || '[]');
+        const sessionsStored = JSON.parse(localStorage.getItem('studySessions') || '[]');
+
+        // Normalize and combine history
+        const combined = [...stopwatchStored, ...sessionsStored].sort((a, b) =>
+            new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+        setHistory(combined);
     }, []);
 
     const formatTime = (seconds: number) => {
@@ -38,9 +44,47 @@ export default function History({ onNavigate }: HistoryProps) {
         });
     };
 
+    // Calculate Heatmap Data
+    const getHeatmapData = () => {
+        const data: Record<string, number> = {};
+        const today = new Date();
+
+        // Initialize last 14 days
+        for (let i = 13; i >= 0; i--) {
+            const d = new Date(today);
+            d.setDate(d.getDate() - i);
+            data[d.toISOString().split('T')[0]] = 0;
+        }
+
+        history.forEach(item => {
+            const dStr = new Date(item.date).toISOString().split('T')[0];
+            if (data[dStr] !== undefined) {
+                data[dStr] += item.duration;
+            }
+        });
+
+        return Object.entries(data);
+    };
+
     return (
         <div className="flex flex-col h-full w-full p-4 items-center">
-            <h2 className="text-xl font-bold text-white mb-4 shrink-0">History</h2>
+            <h2 className="text-xl font-bold text-white mb-2 shrink-0">History</h2>
+
+            {history.length > 0 && (
+                <div className="w-full flex gap-1 justify-center mb-4 shrink-0">
+                    {getHeatmapData().map(([dateStr, duration]) => (
+                        <div
+                            key={dateStr}
+                            title={`${dateStr}: ${Math.round(duration/60)} min`}
+                            className={`w-3 h-3 rounded-sm ${
+                                duration > 3600 ? 'bg-green-500' :
+                                duration > 1800 ? 'bg-green-400' :
+                                duration > 0 ? 'bg-green-300' : 'bg-white/10'
+                            }`}
+                        />
+                    ))}
+                </div>
+            )}
 
             <div className="flex-1 w-full overflow-y-auto hide-scrollbar flex flex-col gap-3">
                 {history.length === 0 ? (
@@ -51,7 +95,14 @@ export default function History({ onNavigate }: HistoryProps) {
                     history.map((item, index) => (
                         <div key={index} className="bg-white/5 p-3 rounded-lg flex flex-col gap-1 text-left">
                             <div className="flex justify-between items-center border-b border-white/10 pb-1 mb-1">
-                                <span className="text-xs text-white/70">{formatDate(item.date)}</span>
+                                <div className="flex gap-2 items-center">
+                                    <span className="text-xs text-white/70">{formatDate(item.date)}</span>
+                                    {item.tag && (
+                                        <span className="text-[10px] bg-blue-500/20 text-blue-200 px-1.5 py-0.5 rounded">
+                                            {item.tag}
+                                        </span>
+                                    )}
+                                </div>
                                 <span className="text-sm font-mono font-bold text-white">{formatTime(item.duration)}</span>
                             </div>
 

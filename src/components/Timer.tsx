@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Play, Pause, Square } from "lucide-react";
 import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/plugin-notification';
+import StudyPet from "./StudyPet";
 
 interface TimerProps {
     initialSeconds: number;
@@ -31,6 +32,15 @@ export default function Timer({ initialSeconds, onNavigate }: TimerProps) {
             setTimeLeft((prev) => {
                 if (prev <= 1) {
                     clearInterval(id);
+                    // Save session to history
+                    const sessions = JSON.parse(localStorage.getItem('studySessions') || '[]');
+                    sessions.push({
+                        date: new Date().toISOString(),
+                        duration: initialSeconds,
+                        tag: localStorage.getItem('currentTag') || null
+                    });
+                    localStorage.setItem('studySessions', JSON.stringify(sessions));
+
                     // Send Windows Toast Notification
                     sendNotification({ title: 'Study Timer', body: 'Your timer is finished! Well done!' });
                     setTimeout(() => onNavigate("finished"), 0);
@@ -41,7 +51,7 @@ export default function Timer({ initialSeconds, onNavigate }: TimerProps) {
         }, 1000);
 
         return () => clearInterval(id);
-    }, [isPaused, showEndConfirm, onNavigate]);
+    }, [isPaused, showEndConfirm, onNavigate, initialSeconds]);
 
     const h = Math.floor(timeLeft / 3600);
     const m = Math.floor((timeLeft % 3600) / 60);
@@ -63,11 +73,13 @@ export default function Timer({ initialSeconds, onNavigate }: TimerProps) {
 
     return (
         <div className="relative flex flex-col items-center justify-center h-full w-full">
-            <div className="text-4xl font-mono font-light tracking-widest text-white mb-6">
+            <div className="text-4xl font-mono font-light tracking-widest text-white mb-2">
                 {h > 0 ? `${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`}
             </div>
 
-            <div className="flex gap-6 items-center">
+            <StudyPet status={isPaused || showEndConfirm ? 'sleeping' : 'studying'} />
+
+            <div className="flex gap-6 items-center mt-4">
                 <button
                     onClick={() => setIsPaused(!isPaused)}
                     className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
