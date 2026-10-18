@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Play, Pause, Square } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Play, Pause, Square, Flag } from "lucide-react";
 
 interface StopwatchProps {
     onNavigate: (view: string) => void;
@@ -9,6 +9,9 @@ export default function Stopwatch({ onNavigate }: StopwatchProps) {
     const [timeElapsed, setTimeElapsed] = useState(0);
     const [isPaused, setIsPaused] = useState(true);
     const [showEndConfirm, setShowEndConfirm] = useState(false);
+    const [laps, setLaps] = useState<number[]>([]);
+
+    const lapsEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (isPaused || showEndConfirm) return;
@@ -20,11 +23,23 @@ export default function Stopwatch({ onNavigate }: StopwatchProps) {
         return () => clearInterval(id);
     }, [isPaused, showEndConfirm]);
 
-    const h = Math.floor(timeElapsed / 3600);
-    const m = Math.floor((timeElapsed % 3600) / 60);
-    const s = timeElapsed % 60;
+    useEffect(() => {
+        if (lapsEndRef.current) {
+            lapsEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [laps]);
 
-    const pad = (num: number) => num.toString().padStart(2, "0");
+    const formatTime = (seconds: number) => {
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = seconds % 60;
+        const pad = (num: number) => num.toString().padStart(2, "0");
+        return h > 0 ? `${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+    };
+
+    const handleLapClick = () => {
+        setLaps(prev => [...prev, timeElapsed]);
+    };
 
     const handleEndClick = () => {
         setShowEndConfirm(true);
@@ -32,6 +47,14 @@ export default function Stopwatch({ onNavigate }: StopwatchProps) {
 
     const handleConfirmEnd = (yes: boolean) => {
         if (yes) {
+            const newHistoryItem = {
+                date: new Date().toISOString(),
+                duration: timeElapsed,
+                laps: laps
+            };
+            const currentHistory = JSON.parse(localStorage.getItem('stopwatchHistory') || '[]');
+            localStorage.setItem('stopwatchHistory', JSON.stringify([newHistoryItem, ...currentHistory]));
+
             onNavigate("finished-silent");
         } else {
             setShowEndConfirm(false);
@@ -39,26 +62,44 @@ export default function Stopwatch({ onNavigate }: StopwatchProps) {
     };
 
     return (
-        <div className="relative flex flex-col items-center justify-center h-full w-full">
-            <div className="text-4xl font-mono font-light tracking-widest text-white mb-6">
-                {h > 0 ? `${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`}
+        <div className="relative flex flex-col items-center justify-center h-full w-full pt-8">
+            <div className="text-4xl font-mono font-light tracking-widest text-white mb-4">
+                {formatTime(timeElapsed)}
             </div>
 
-            <div className="flex gap-6 items-center">
+            <div className="flex gap-4 items-center mb-4">
                 <button
                     onClick={() => setIsPaused(!isPaused)}
-                    className="p-3 bg-white/10 rounded-full transition-colors cursor-pointer"
+                    className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors cursor-pointer"
                     title={isPaused ? "Resume" : "Pause"}
                 >
                     {isPaused ? <Play size={16} fill="currentColor" /> : <Pause size={16} fill="currentColor" />}
                 </button>
                 <button
+                    onClick={handleLapClick}
+                    className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors cursor-pointer"
+                    title="Lap"
+                    disabled={timeElapsed === 0}
+                >
+                    <Flag size={16} fill="currentColor" />
+                </button>
+                <button
                     onClick={handleEndClick}
-                    className="p-3 bg-white/10 rounded-full transition-colors cursor-pointer"
+                    className="p-3 bg-white/10 hover:bg-red-500/80 rounded-full transition-colors cursor-pointer"
                     title="End Stopwatch"
                 >
                     <Square size={16} fill="currentColor" />
                 </button>
+            </div>
+
+            <div className="flex-1 w-full max-h-24 overflow-y-auto px-4 hide-scrollbar flex flex-col gap-1 mb-4 text-sm text-white/70">
+                {laps.map((lap, index) => (
+                    <div key={index} className="flex justify-between border-b border-white/5 pb-1">
+                        <span>Lap {index + 1}</span>
+                        <span className="font-mono">{formatTime(lap)}</span>
+                    </div>
+                ))}
+                <div ref={lapsEndRef} />
             </div>
 
             {showEndConfirm && (
