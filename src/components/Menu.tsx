@@ -25,6 +25,12 @@ export default function Menu({ onNavigate }: MenuProps) {
 
       <button
         className="text-lg hover:text-white/80 transition-colors cursor-pointer"
+        onClick={() => onNavigate("profile")}>
+        Profile
+      </button>
+
+      <button
+        className="text-lg hover:text-white/80 transition-colors cursor-pointer"
         onClick={() => onNavigate("settings")}>
         Settings
       </button>

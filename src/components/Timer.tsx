@@ -12,6 +12,17 @@ export default function Timer({ initialSeconds, onNavigate }: TimerProps) {
     const [timeLeft, setTimeLeft] = useState(initialSeconds);
     const [isPaused, setIsPaused] = useState(false);
     const [showEndConfirm, setShowEndConfirm] = useState(false);
+    const [hardcoreMode] = useState(() => localStorage.getItem('hardcoreMode') === 'true');
+    const [pausePos, setPausePos] = useState({ x: 0, y: 0 });
+
+    const handlePauseHover = () => {
+        if (hardcoreMode && !isPaused) {
+            setPausePos({
+                x: Math.random() * 200 - 100,
+                y: Math.random() * 200 - 100
+            });
+        }
+    };
 
     // Request notification permission on mount
     useEffect(() => {
@@ -81,8 +92,13 @@ export default function Timer({ initialSeconds, onNavigate }: TimerProps) {
 
             <div className="flex gap-6 items-center mt-4">
                 <button
-                    onClick={() => setIsPaused(!isPaused)}
+                    onClick={() => {
+                        setIsPaused(!isPaused);
+                        setPausePos({ x: 0, y: 0 });
+                    }}
+                    onMouseEnter={handlePauseHover}
                     className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors cursor-pointer"
+                    style={{ transform: `translate(${pausePos.x}px, ${pausePos.y}px)`, transition: hardcoreMode ? 'transform 0.1s' : 'none' }}
                     title={isPaused ? "Resume" : "Pause"}
                 >
                     {isPaused ? <Play size={16} fill="currentColor" /> : <Pause size={16} fill="currentColor" />}

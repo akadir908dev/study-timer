@@ -12,6 +12,7 @@ import Pomodoro from "./components/Pomodoro";
 import History from "./components/History";
 import AmbienceMixer, { SOUND_TRACKS } from "./components/AmbienceMixer";
 import Flowtime from "./components/Flowtime";
+import Profile from "./components/Profile";
 import { useRef } from "react";
 
 const hexToRgb = (hex: string) => {
@@ -33,7 +34,7 @@ function App() {
 
   const [ambienceVolumes, setAmbienceVolumes] = useState<Record<string, number>>(() => {
     const saved = localStorage.getItem('ambienceVolumes');
-    return saved ? JSON.parse(saved) : { rain: 0, fire: 0, cafe: 0, waves: 0 };
+    return saved ? JSON.parse(saved) : { rain: 0, fire: 0, cafe: 0, waves: 0, dialup: 0, construction: 0 };
   });
 
   const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
@@ -109,6 +110,7 @@ function App() {
         {currentView === "flowtime" && <Flowtime onNavigate={setCurrentView} volume={volume} />}
         {currentView === "history" && <History onNavigate={setCurrentView} />}
         {currentView === "ambience" && <AmbienceMixer onNavigate={setCurrentView} volumes={ambienceVolumes} setVolumes={setAmbienceVolumes} />}
+        {currentView === "profile" && <Profile onNavigate={setCurrentView} />}
         {currentView === "settings" && (
           <Settings
             onNavigate={setCurrentView}

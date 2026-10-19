@@ -12,6 +12,8 @@ interface SettingsProps {
   setFontFamily: (font: string) => void;
 }
 
+import { useState, useEffect } from "react";
+
 export default function Settings({
   onNavigate,
   themeColor,
@@ -25,6 +27,12 @@ export default function Settings({
   fontFamily,
   setFontFamily,
 }: SettingsProps) {
+  const [hardcoreMode, setHardcoreMode] = useState(() => localStorage.getItem("hardcoreMode") === "true");
+
+  useEffect(() => {
+    localStorage.setItem("hardcoreMode", hardcoreMode.toString());
+  }, [hardcoreMode]);
+
   return (
     <div className="flex flex-col gap-4 items-center justify-center h-full w-full p-4">
       <h2 className="text-xl font-bold text-white mb-2">Settings</h2>
@@ -41,6 +49,7 @@ export default function Settings({
             <option value="glassy">Glassy</option>
             <option value="minimal">Minimal</option>
             <option value="cozy">Cozy</option>
+            <option value="hacker">Hacker</option>
           </select>
         </div>
 
@@ -99,6 +108,17 @@ export default function Settings({
             value={volume}
             onChange={(e) => setVolume(parseFloat(e.target.value))}
             className="w-full cursor-pointer accent-blue-600"
+          />
+        </div>
+
+        {/* Hardcore Mode */}
+        <div className="flex justify-between items-center mt-2">
+          <label className="text-white">Hardcore Mode</label>
+          <input
+            type="checkbox"
+            checked={hardcoreMode}
+            onChange={(e) => setHardcoreMode(e.target.checked)}
+            className="w-4 h-4 cursor-pointer accent-blue-600"
           />
         </div>
       </div>
