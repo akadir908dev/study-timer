@@ -10,8 +10,19 @@ export default function Stopwatch({ onNavigate }: StopwatchProps) {
     const [isPaused, setIsPaused] = useState(true);
     const [showEndConfirm, setShowEndConfirm] = useState(false);
     const [laps, setLaps] = useState<number[]>([]);
+    const [hardcoreMode] = useState(() => localStorage.getItem('hardcoreMode') === 'true');
+    const [pausePos, setPausePos] = useState({ x: 0, y: 0 });
 
     const lapsEndRef = useRef<HTMLDivElement>(null);
+
+    const handlePauseHover = () => {
+        if (hardcoreMode && !isPaused) {
+            setPausePos({
+                x: Math.random() * 200 - 100,
+                y: Math.random() * 200 - 100
+            });
+        }
+    };
 
     useEffect(() => {
         if (isPaused || showEndConfirm) return;
@@ -63,14 +74,25 @@ export default function Stopwatch({ onNavigate }: StopwatchProps) {
 
     return (
         <div className="relative flex flex-col items-center justify-center h-full w-full pt-8">
+            <button
+                className="absolute top-4 left-4 text-xs font-bold text-white/50 hover:text-white/80 transition-colors cursor-pointer uppercase tracking-wider"
+                onClick={() => onNavigate("menu")}
+            >
+                Back
+            </button>
             <div className="text-4xl font-mono font-light tracking-widest text-white mb-4">
                 {formatTime(timeElapsed)}
             </div>
 
             <div className="flex gap-4 items-center mb-4">
                 <button
-                    onClick={() => setIsPaused(!isPaused)}
+                    onClick={() => {
+                        setIsPaused(!isPaused);
+                        setPausePos({ x: 0, y: 0 });
+                    }}
+                    onMouseEnter={handlePauseHover}
                     className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors cursor-pointer"
+                    style={{ transform: `translate(${pausePos.x}px, ${pausePos.y}px)`, transition: hardcoreMode ? 'transform 0.1s' : 'none' }}
                     title={isPaused ? "Resume" : "Pause"}
                 >
                     {isPaused ? <Play size={16} fill="currentColor" /> : <Pause size={16} fill="currentColor" />}

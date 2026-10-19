@@ -9,6 +9,8 @@ export const SOUND_TRACKS = [
   { id: 'fire', label: 'Fireplace', url: 'https://cdn.pixabay.com/download/audio/2022/02/07/audio_677eb24b74.mp3?filename=crackling-fireplace-nature-sounds-8012.mp3' },
   { id: 'cafe', label: 'Coffee Shop', url: 'https://cdn.pixabay.com/download/audio/2021/09/06/audio_34190ba324.mp3?filename=restaurant-ambience-chatting-and-clinking-14389.mp3' },
   { id: 'waves', label: 'Ocean', url: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_12b0c7443c.mp3?filename=ocean-waves-112906.mp3' },
+  { id: 'dialup', label: 'Dial-up Modem', url: 'https://cdn.pixabay.com/download/audio/2022/11/22/audio_f542cc4286.mp3?filename=dial-up-modem-01-236402.mp3' },
+  { id: 'construction', label: 'Construction', url: 'https://cdn.pixabay.com/download/audio/2021/08/09/audio_8e7ab00cd0.mp3?filename=construction-site-1-105260.mp3' },
 ];
 
 export default function AmbienceMixer({ onNavigate, volumes, setVolumes }: AmbienceMixerProps) {
@@ -32,7 +34,7 @@ export default function AmbienceMixer({ onNavigate, volumes, setVolumes }: Ambie
               min="0.0"
               max="1.0"
               step="0.05"
-              value={volumes[track.id]}
+              value={volumes[track.id] || 0}
               onChange={(e) => handleVolumeChange(track.id, parseFloat(e.target.value))}
               className="w-full cursor-pointer accent-blue-600"
             />

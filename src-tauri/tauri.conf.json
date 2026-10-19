@@ -17,7 +17,7 @@
         "height": 256,
         "decorations": false,
         "transparent": true,
-        "resizable": false,
+        "resizable": true,
         "shadow": false,
         "alwaysOnTop": true
       }

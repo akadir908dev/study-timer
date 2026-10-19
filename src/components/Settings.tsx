@@ -12,6 +12,8 @@ interface SettingsProps {
   setFontFamily: (font: string) => void;
 }
 
+import { useState, useEffect } from "react";
+
 export default function Settings({
   onNavigate,
   themeColor,
@@ -25,6 +27,12 @@ export default function Settings({
   fontFamily,
   setFontFamily,
 }: SettingsProps) {
+  const [hardcoreMode, setHardcoreMode] = useState(() => localStorage.getItem("hardcoreMode") === "true");
+
+  useEffect(() => {
+    localStorage.setItem("hardcoreMode", hardcoreMode.toString());
+  }, [hardcoreMode]);
+
   return (
     <div className="flex flex-col gap-4 items-center justify-center h-full w-full p-4">
       <h2 className="text-xl font-bold text-white mb-2">Settings</h2>
@@ -41,6 +49,7 @@ export default function Settings({
             <option value="glassy">Glassy</option>
             <option value="minimal">Minimal</option>
             <option value="cozy">Cozy</option>
+            <option value="hacker">Hacker</option>
           </select>
         </div>
 
@@ -101,14 +110,36 @@ export default function Settings({
             className="w-full cursor-pointer accent-blue-600"
           />
         </div>
+
+        {/* Hardcore Mode */}
+        <div className="flex justify-between items-center mt-2">
+          <label className="text-white">Hardcore Mode</label>
+          <input
+            type="checkbox"
+            checked={hardcoreMode}
+            onChange={(e) => setHardcoreMode(e.target.checked)}
+            className="w-4 h-4 cursor-pointer accent-blue-600"
+          />
+        </div>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 flex gap-4">
         <button
           className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full font-medium transition-colors cursor-pointer"
           onClick={() => onNavigate("menu")}
         >
           Back
+        </button>
+        <button
+          className="px-6 py-2 bg-red-500/20 hover:bg-red-500/40 text-red-200 rounded-full font-medium transition-colors cursor-pointer"
+          onClick={() => {
+            if (confirm("Are you sure you want to reset all data and settings?")) {
+              localStorage.clear();
+              window.location.reload();
+            }
+          }}
+        >
+          Factory Reset
         </button>
       </div>
     </div>
