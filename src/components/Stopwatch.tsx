@@ -74,6 +74,12 @@ export default function Stopwatch({ onNavigate }: StopwatchProps) {
 
     return (
         <div className="relative flex flex-col items-center justify-center h-full w-full pt-8">
+            <button
+                className="absolute top-4 left-4 text-xs font-bold text-white/50 hover:text-white/80 transition-colors cursor-pointer uppercase tracking-wider"
+                onClick={() => onNavigate("menu")}
+            >
+                Back
+            </button>
             <div className="text-4xl font-mono font-light tracking-widest text-white mb-4">
                 {formatTime(timeElapsed)}
             </div>

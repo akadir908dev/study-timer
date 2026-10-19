@@ -84,7 +84,13 @@ export default function Timer({ initialSeconds, onNavigate }: TimerProps) {
 
     return (
         <div className="relative flex flex-col items-center justify-center h-full w-full">
-            <div className="text-4xl font-mono font-light tracking-widest text-white mb-2">
+            <button
+                className="absolute top-4 left-4 text-xs font-bold text-white/50 hover:text-white/80 transition-colors cursor-pointer uppercase tracking-wider"
+                onClick={() => onNavigate("menu")}
+            >
+                Back
+            </button>
+            <div className="text-4xl font-mono font-light tracking-widest text-white mb-2 mt-4">
                 {h > 0 ? `${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`}
             </div>
 

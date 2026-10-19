@@ -98,7 +98,13 @@ export default function Flowtime({ onNavigate, volume = 0.1 }: FlowtimeProps) {
 
     return (
         <div className="relative flex flex-col items-center justify-center h-full w-full">
-            <div className="text-sm text-white/70 mb-2 font-bold tracking-wider">
+            <button
+                className="absolute top-4 left-4 text-xs font-bold text-white/50 hover:text-white/80 transition-colors cursor-pointer uppercase tracking-wider"
+                onClick={() => onNavigate("menu")}
+            >
+                Back
+            </button>
+            <div className="text-sm text-white/70 mb-2 font-bold tracking-wider mt-4">
                 {isWorkSession ? "FLOW: WORK" : "FLOW: BREAK"}
             </div>
 

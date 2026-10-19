@@ -123,12 +123,23 @@ export default function Settings({
         </div>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 flex gap-4">
         <button
           className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full font-medium transition-colors cursor-pointer"
           onClick={() => onNavigate("menu")}
         >
           Back
+        </button>
+        <button
+          className="px-6 py-2 bg-red-500/20 hover:bg-red-500/40 text-red-200 rounded-full font-medium transition-colors cursor-pointer"
+          onClick={() => {
+            if (confirm("Are you sure you want to reset all data and settings?")) {
+              localStorage.clear();
+              window.location.reload();
+            }
+          }}
+        >
+          Factory Reset
         </button>
       </div>
     </div>
