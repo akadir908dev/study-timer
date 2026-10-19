@@ -111,12 +111,12 @@ export default function TimerMenu({ initialSeconds = 0, onNavigate, onStartTimer
 
             <div className="flex gap-4 mt-4 items-center justify-center">
                 <button
-                    className="w-24 py-2 bg-white/10 text-white rounded-full font-medium transition-colors cursor-pointer"
+                    className="w-24 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full font-medium transition-colors cursor-pointer"
                     onClick={() => onNavigate("start")}>
                     Back
                 </button>
                 <button
-                    className="w-24 py-[7px] bg-blue-600 text-white rounded-full font-medium transition-colors cursor-pointer"
+                    className="w-24 py-[7px] bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium transition-colors cursor-pointer"
                     onClick={handleStart}>
                     Start
                 </button>

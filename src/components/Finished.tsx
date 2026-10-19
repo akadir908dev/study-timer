@@ -55,7 +55,7 @@ export default function Finished({ onNavigate, playMusic = true, showRepeat = tr
       <div className="flex gap-4">
         {showRepeat && (
           <button 
-            className="p-3 bg-white/10 text-white rounded-full transition-colors cursor-pointer"
+            className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors cursor-pointer"
             onClick={() => onNavigate("timerMenu")}
             title="Repeat Timer"
           >
@@ -63,7 +63,7 @@ export default function Finished({ onNavigate, playMusic = true, showRepeat = tr
           </button>
         )}
         <button 
-          className="px-6 py-2 bg-blue-600 text-white rounded-full font-medium transition-colors cursor-pointer"
+          className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium transition-colors cursor-pointer"
           onClick={() => onNavigate("start")}
         >
           Back to Start
