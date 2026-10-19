@@ -7,12 +7,12 @@ export default function Menu({ onNavigate }: MenuProps) {
     <div 
       className="flex flex-col items-center justify-center h-full w-full gap-4">
       <button 
-        className="text-3xl transition-colors cursor-pointer"
+        className="text-3xl hover:text-white/80 transition-colors cursor-pointer"
         onClick={() => onNavigate("start")}>
         Start
       </button>
       <button
-        className="text-lg transition-colors cursor-pointer"
+        className="text-lg hover:text-white/80 transition-colors cursor-pointer"
         onClick={() => onNavigate("history")}>
         History
       </button>
@@ -24,7 +24,7 @@ export default function Menu({ onNavigate }: MenuProps) {
       </button>
 
       <button
-        className="text-lg transition-colors cursor-pointer"
+        className="text-lg hover:text-white/80 transition-colors cursor-pointer"
         onClick={() => onNavigate("settings")}>
         Settings
       </button>

@@ -82,14 +82,14 @@ export default function Timer({ initialSeconds, onNavigate }: TimerProps) {
             <div className="flex gap-6 items-center mt-4">
                 <button
                     onClick={() => setIsPaused(!isPaused)}
-                    className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+                    className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors cursor-pointer"
                     title={isPaused ? "Resume" : "Pause"}
                 >
                     {isPaused ? <Play size={16} fill="currentColor" /> : <Pause size={16} fill="currentColor" />}
                 </button>
                 <button
                     onClick={handleEndClick}
-                    className="p-3 bg-white/10 hover:bg-red-500/80 rounded-full transition-colors"
+                    className="p-3 bg-white/10 hover:bg-red-500/80 rounded-full transition-colors cursor-pointer"
                     title="End Timer"
                 >
                     <Square size={16} fill="currentColor" />
@@ -103,13 +103,13 @@ export default function Timer({ initialSeconds, onNavigate }: TimerProps) {
                         <p className="text-sm font-medium mb-4">Are you sure you would like to end?</p>
                         <div className="flex gap-4">
                             <button
-                                className="px-4 py-1.5 bg-red-600 hover:bg-red-700 rounded-md text-sm font-medium transition-colors"
+                                className="px-4 py-1.5 bg-red-600 hover:bg-red-700 rounded-md text-sm font-medium transition-colors cursor-pointer"
                                 onClick={() => handleConfirmEnd(true)}
                             >
                                 Yes
                             </button>
                             <button
-                                className="px-4 py-1.5 bg-gray-600 hover:bg-gray-700 rounded-md text-sm font-medium transition-colors"
+                                className="px-4 py-1.5 bg-gray-600 hover:bg-gray-700 rounded-md text-sm font-medium transition-colors cursor-pointer"
                                 onClick={() => handleConfirmEnd(false)}
                             >
                                 No

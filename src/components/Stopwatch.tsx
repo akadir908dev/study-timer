@@ -109,13 +109,13 @@ export default function Stopwatch({ onNavigate }: StopwatchProps) {
                         <p className="text-sm font-medium mb-4">Are you sure you would like to end?</p>
                         <div className="flex gap-4">
                             <button
-                                className="px-4 py-1.5 bg-red-600 rounded-md text-sm font-medium transition-colors cursor-pointer"
+                                className="px-4 py-1.5 bg-red-600 hover:bg-red-700 rounded-md text-sm font-medium transition-colors cursor-pointer"
                                 onClick={() => handleConfirmEnd(true)}
                             >
                                 Yes
                             </button>
                             <button
-                                className="px-4 py-1.5 bg-gray-600 ounded-md text-sm font-medium transition-colors cursor-pointer"
+                                className="px-4 py-1.5 bg-gray-600 hover:bg-gray-700 rounded-md text-sm font-medium transition-colors cursor-pointer"
                                 onClick={() => handleConfirmEnd(false)}
                             >
                                 No
