@@ -113,6 +113,12 @@ html, body {
   justify-content: safe center;
   text-align: center;
   overflow-y: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.content::-webkit-scrollbar {
+  display: none;
 }
 
 @layer base {
